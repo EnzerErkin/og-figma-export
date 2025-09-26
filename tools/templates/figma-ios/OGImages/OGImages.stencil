@@ -1,0 +1,20 @@
+// swiftlint:disable all
+// Generated using OGAssetFetcher
+import Foundation
+import SwiftUI
+// swiftlint:disable superfluous_disable_command
+// swiftlint:disable file_length
+public enum OGImages {
+{% for image in images %}
+    public static let {{ image.name }} = OGImageAsset("{{ image.name }}")
+{% endfor %}
+}
+
+public struct OGImageAsset: Equatable {
+	public let name: String
+	public let image: Image
+	public init(_ name: String) {
+		self.name = name
+		self.image = Image(name)
+	}
+}

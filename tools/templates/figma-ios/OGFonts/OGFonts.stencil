@@ -1,0 +1,62 @@
+// swiftlint:disable all
+// Generated using OGAssetFetcher
+import OGDIService
+import SwiftUI
+
+/// A type that provides the font style for an app.
+public protocol OGFontResolvable {
+	/// provides a tuple for a give font key. Used for constructing a ViewModifier
+	/// - Parameter key : The ``OGFonts`` key for a font style to lookup.
+	/// - Returns: A font style struct
+	// swiftlint:disable:next large_tuple
+	func font(_ key: OGFonts) -> OGFontStyle
+}
+
+// swiftlint:disable superfluous_disable_command
+// swiftlint:disable file_length
+public enum OGFonts {
+{% for font in fonts %}
+  case {{ font.name }}
+{% endfor %}
+}
+
+public struct OGFontStyle {
+  public let name: String
+  public let size: CGFloat
+  public let lineHeight: CGFloat
+
+  public init(name: String, size: CGFloat, lineHeight: CGFloat) {
+    self.name = name
+    self.size = size
+    self.lineHeight = lineHeight
+  }
+}
+
+public extension View {
+  /// Adds the font style to a Label
+  /// - Parameter key: The ``UICatalog/OGFonts`` key for a font style to lookup.
+  /// - Returns: A View with applied font style.
+  func font(for key: OGFonts) -> some View {
+    let style: OGFontStyle = FontResolverContainer.shared.fontResolver().font(key)
+    let modifier: OGFontWithLineHeight = .init(style: style)
+    return ModifiedContent(
+      content: self,
+      modifier: modifier)
+  }
+}
+
+// MARK: - NHFontWithLineHeight
+
+internal struct OGFontWithLineHeight: ViewModifier {
+  @Environment(\.sizeCategory) var sizeCategory
+  let style: OGFontStyle
+  func body(content: Content) -> some View {
+    let scaledSize = UIFontMetrics.default.scaledValue(for: style.size)
+    let scaledLineHeight = UIFontMetrics.default.scaledValue(for: style.lineHeight)
+    let scaledFont = UIFont(name: style.name, size: scaledSize)
+    let scaledFontLineHeight = scaledFont?.lineHeight ?? .zero
+    return content
+      .font(.custom(style.name, size: scaledSize))
+      .lineSpacing(scaledLineHeight - scaledFontLineHeight)
+  }
+}

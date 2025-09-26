@@ -1,0 +1,20 @@
+// swiftlint:disable all
+// Generated using OGAssetFetcher
+import Foundation
+import SwiftUI
+// swiftlint:disable superfluous_disable_command
+// swiftlint:disable file_length
+public enum OGColors {
+{% for color in colors %}
+    public static let {{ color.variableName }} = OGColorAsset("{{ color.keyName }}")
+{% endfor %}
+}
+
+public struct OGColorAsset {
+	public let name: String
+	public let color: Color
+	init(_ name: String) {
+		self.name = name
+		self.color = Color(name)
+	}
+}

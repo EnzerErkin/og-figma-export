@@ -1,0 +1,17 @@
+// swiftlint:disable all
+// periphery:ignore:all
+// Generated using OGAssetFetcher
+import Foundation
+import {{libraryImport}}
+// swiftlint:disable superfluous_disable_command
+// swiftlint:disable file_length
+struct OGFontResolver: OGFontResolvable {
+  public func font(_ key: OGFonts) -> OGFontStyle {
+    switch key {
+      {% for font in fonts %}
+      case .{{ font.name }}:
+        return OGFontStyle(name: "{{font.postscriptName}}", size: {{font.fontSize}}, lineHeight: {{font.lineHeight}})
+      {% endfor %}
+    }
+  }
+}
