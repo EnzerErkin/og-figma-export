@@ -67,7 +67,8 @@ extension FigmaExportCommand {
 
             let assetsURL = {
                 guard let xcassetsPath = ios.xcassetsPath, let assetsFolder = iconsParams.assetsFolder else {
-                    return URL(fileURLWithPath: "")
+                    // SAFETY FIX: Never return empty path that could resolve to current directory
+                    return URL(fileURLWithPath: "/tmp/figma-export-safe-dummy-path")
                 }
                 return xcassetsPath.appendingPathComponent(assetsFolder)
             }()
@@ -87,7 +88,10 @@ extension FigmaExportCommand {
             let exporter = XcodeIconsExporter(output: output)
             let localAndRemoteFiles = try exporter.export(icons: icons.get(), append: filter != nil)
             if filter == nil {
-                try? FileManager.default.removeItem(atPath: assetsURL.path)
+                // SAFETY FIX: Only remove directory if it's a valid assets path, not our dummy path
+                if ios.xcassetsPath != nil && iconsParams.assetsFolder != nil && !assetsURL.path.contains("/tmp/figma-export-safe-dummy-path") {
+                    try? FileManager.default.removeItem(atPath: assetsURL.path)
+                }
             }
 
             logger.info("Downloading remote files...")
