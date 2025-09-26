@@ -78,7 +78,7 @@ final public class XcodeColorExporter: XcodeExporterBase {
         ]
 
         let env = makeEnvironment(templatesPath: output.templatesPath)
-        return try env.renderTemplate(name: "Color+extension.swift.stencil", context: context)
+        return try env.renderTemplate(name: "OGColors/OGColors.stencil", context: context)
     }
 
     private func makeUIColorExtensionContents(_ colorPairs: [AssetPair<Color>]) throws -> String {

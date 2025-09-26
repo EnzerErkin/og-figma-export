@@ -75,7 +75,7 @@ final public class XcodeTypographyExporter: XcodeExporterBase {
             ]
         }
         let env = makeEnvironment(templatesPath: output.templatesPath)
-        let contents = try env.renderTemplate(name: "Font+extension.swift.stencil", context: [
+        let contents = try env.renderTemplate(name: "OGFonts/OGFonts.stencil", context: [
             "textStyles": textStyles,
         ])
         return try makeFileContents(for: contents, url: swiftUIFontExtensionURL)

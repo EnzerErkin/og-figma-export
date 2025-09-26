@@ -40,11 +40,11 @@ public class XcodeImagesExporterBase: XcodeExporterBase {
     private func makeSwiftUIExtension(for names: [String], append: Bool, extensionFileURL url: URL) throws -> FileContents {
         let contents: String
         if append {
-            let partialContents = try makeExtensionContents(names: names, templateName: "Image+extension.swift.stencil.include")
+            let partialContents = try makeExtensionContents(names: names, templateName: "OGImages/OGImages.stencil.include")
             contents = try appendContent(string: partialContents, to: url)
         }
         else {
-            contents = try makeExtensionContents(names: names, templateName: "Image+extension.swift.stencil")
+            contents = try makeExtensionContents(names: names, templateName: "OGImages/OGImages.stencil")
         }
         return try makeFileContents(for: contents, url: url)
     }
