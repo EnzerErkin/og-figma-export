@@ -86,7 +86,7 @@ extension FigmaExportCommand {
             
             let exporter = XcodeIconsExporter(output: output)
             let localAndRemoteFiles = try exporter.export(icons: icons.get(), append: filter != nil)
-            if filter == nil {
+            if filter == nil && !(iconsParams.codeOnly ?? false) {
                 try? FileManager.default.removeItem(atPath: assetsURL.path)
             }
 
