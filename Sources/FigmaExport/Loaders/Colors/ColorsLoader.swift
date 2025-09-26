@@ -82,6 +82,7 @@ final class ColorsLoader {
             throw FigmaExportError.stylesNotFound
         }
         
+        
         let nodes = try loadNodes(fileId: fileId, nodeIds: styles.map { $0.nodeId } )
         return nodesAndStylesToColors(nodes: nodes, styles: styles)
     }

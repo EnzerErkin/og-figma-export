@@ -76,7 +76,7 @@ final public class XcodeColorExporter: XcodeExporterBase {
             "useNamespace": output.groupUsingNamespace,
             "colors": colors,
         ]
-
+        
         let env = makeEnvironment(templatesPath: output.templatesPath)
         return try env.renderTemplate(name: "OGColors/OGColors.stencil", context: context)
     }
@@ -85,6 +85,7 @@ final public class XcodeColorExporter: XcodeExporterBase {
         let useAssets = output.assetsColorsURL != nil
         let colors: [[String: Any]] = colorPairs.map { colorPair in
             let name = normalizeName(colorPair.light.name)
+
 
             var obj: [String: Any] = [:]
             obj["name"] = name

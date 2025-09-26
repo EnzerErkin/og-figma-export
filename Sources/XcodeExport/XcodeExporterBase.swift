@@ -41,7 +41,7 @@ public class XcodeExporterBase {
     }
     
     func makeFileContents(for string: String, url: URL) throws -> FileContents {
-        let fileURL = URL(fileURLWithPath: url.lastPathComponent)
+        let fileURL = URL(string: url.lastPathComponent)!
         let directoryURL = url.deletingLastPathComponent()
 
         return FileContents(
