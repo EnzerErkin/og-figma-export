@@ -6,7 +6,7 @@ import SwiftUI
 // swiftlint:disable file_length
 public enum OGColors {
 {% for color in colors %}
-    public static let {{ color.name }} = OGColorAsset("{{ color.originalName }}")
+    public static let {{ color.name }} = OGColorAsset("{{ color.assetName }}")
 {% endfor %}
 }
 

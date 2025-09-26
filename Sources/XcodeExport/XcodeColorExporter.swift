@@ -54,6 +54,7 @@ final public class XcodeColorExporter: XcodeExporterBase {
             let name = normalizeName(colorPair.light.name)
             obj["name"] = name
             obj["originalName"] = colorPair.light.originalName
+            obj["assetName"] = name.prefix(1).uppercased() + name.dropFirst()
 
             if !useAssets {
                 let lightComponents = colorPair.light.toRgbComponents()
@@ -90,6 +91,7 @@ final public class XcodeColorExporter: XcodeExporterBase {
             var obj: [String: Any] = [:]
             obj["name"] = name
             obj["originalName"] = colorPair.light.originalName
+            obj["assetName"] = name.prefix(1).uppercased() + name.dropFirst()
 
             if !useAssets {
                 let lightComponents = colorPair.light.toRgbComponents()

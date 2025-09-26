@@ -15,8 +15,8 @@ public protocol OGFontResolvable {
 // swiftlint:disable superfluous_disable_command
 // swiftlint:disable file_length
 public enum OGFonts {
-{% for font in fonts %}
-  case {{ font.name }}
+{% for textStyle in textStyles %}
+  case {{ textStyle.name }}
 {% endfor %}
 }
 
