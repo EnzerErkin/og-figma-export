@@ -77,6 +77,7 @@ struct Params: Decodable {
             let assetsFolder: String?
             let nameStyle: NameStyle
             let groupUsingNamespace: Bool?
+            let codeOnly: Bool?
 
             let colorSwift: URL?
             let swiftuiColorSwift: URL?
@@ -84,9 +85,10 @@ struct Params: Decodable {
 
         struct Icons: Decodable {
             let format: VectorFormat
-            let assetsFolder: String
+            let assetsFolder: String?
             let preservesVectorRepresentation: [String]?
             let nameStyle: NameStyle
+            let codeOnly: Bool?
 
             let imageSwift: URL?
             let swiftUIImageSwift: URL?
@@ -98,9 +100,10 @@ struct Params: Decodable {
         }
 
         struct Images: Decodable {
-            let assetsFolder: String
+            let assetsFolder: String?
             let nameStyle: NameStyle
             let scales: [Double]?
+            let codeOnly: Bool?
 
             let imageSwift: URL?
             let swiftUIImageSwift: URL?
@@ -115,10 +118,10 @@ struct Params: Decodable {
             let nameStyle: NameStyle
         }
 
-        let xcodeprojPath: String
-        let target: String
-        let xcassetsPath: URL
-        let xcassetsInMainBundle: Bool
+        let xcodeprojPath: String?
+        let target: String?
+        let xcassetsPath: URL?
+        let xcassetsInMainBundle: Bool?
         let xcassetsInSwiftPackage: Bool?
         let resourceBundleNames: [String]?
         let addObjcAttribute: Bool?

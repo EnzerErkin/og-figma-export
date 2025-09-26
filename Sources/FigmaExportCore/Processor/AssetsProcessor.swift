@@ -25,6 +25,8 @@ public extension AssetNameProcessable {
             return name.lowerCamelCased()
         case .snakeCase:
             return name.snakeCased()
+        case .ogVariable:
+            return name.ogVariableFormatted()
         }
     }
 }

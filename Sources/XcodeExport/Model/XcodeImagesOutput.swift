@@ -10,6 +10,7 @@ public struct XcodeImagesOutput {
     let addObjcAttribute: Bool
     let preservesVectorRepresentation: [String]?
     let templatesPath: URL?
+    let codeOnly: Bool
     
     let uiKitImageExtensionURL: URL?
     let swiftUIImageExtensionURL: URL?
@@ -29,7 +30,8 @@ public struct XcodeImagesOutput {
         preservesVectorRepresentation: [String]? = nil,
         uiKitImageExtensionURL: URL? = nil,
         swiftUIImageExtensionURL: URL? = nil,
-        templatesPath: URL? = nil
+        templatesPath: URL? = nil,
+        codeOnly: Bool = false
     ) {
         self.assetsFolderURL = assetsFolderURL
         self.assetsInMainBundle = assetsInMainBundle
@@ -40,5 +42,6 @@ public struct XcodeImagesOutput {
         self.uiKitImageExtensionURL = uiKitImageExtensionURL
         self.swiftUIImageExtensionURL = swiftUIImageExtensionURL
         self.templatesPath = templatesPath
+        self.codeOnly = codeOnly
     }
 }

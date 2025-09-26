@@ -61,17 +61,23 @@ extension FigmaExportCommand {
                 logger.warning("\(warning)")
             }
 
-            let assetsURL = ios.xcassetsPath.appendingPathComponent(imagesParams.assetsFolder)
+            let assetsURL = {
+                guard let xcassetsPath = ios.xcassetsPath, let assetsFolder = imagesParams.assetsFolder else {
+                    return URL(fileURLWithPath: "")
+                }
+                return xcassetsPath.appendingPathComponent(assetsFolder)
+            }()
             
             let output = XcodeImagesOutput(
                 assetsFolderURL: assetsURL,
-                assetsInMainBundle: ios.xcassetsInMainBundle,
+                assetsInMainBundle: ios.xcassetsInMainBundle ?? false,
                 assetsInSwiftPackage: ios.xcassetsInSwiftPackage,
                 resourceBundleNames: ios.resourceBundleNames,
                 addObjcAttribute: ios.addObjcAttribute,
                 uiKitImageExtensionURL: imagesParams.imageSwift,
                 swiftUIImageExtensionURL: imagesParams.swiftUIImageSwift,
-                templatesPath: ios.templatesPath
+                templatesPath: ios.templatesPath,
+                codeOnly: imagesParams.codeOnly ?? false
             )
             
             let exporter = XcodeImagesExporter(output: output)
@@ -91,16 +97,18 @@ extension FigmaExportCommand {
                 return
             }
             
-            do {
-                let xcodeProject = try XcodeProjectWriter(xcodeProjPath: ios.xcodeprojPath, target: ios.target)
-                try localFiles.forEach { file in
-                    if file.destination.file.pathExtension == "swift" {
-                        try xcodeProject.addFileReferenceToXcodeProj(file.destination.url)
+            if let xcodeprojPath = ios.xcodeprojPath, let target = ios.target {
+                do {
+                    let xcodeProject = try XcodeProjectWriter(xcodeProjPath: xcodeprojPath, target: target)
+                    try localFiles.forEach { file in
+                        if file.destination.file.pathExtension == "swift" {
+                            try xcodeProject.addFileReferenceToXcodeProj(file.destination.url)
+                        }
                     }
+                    try xcodeProject.save()
+                } catch {
+                    logger.error("Unable to add some file references to Xcode project")
                 }
-                try xcodeProject.save()
-            } catch {
-                logger.error("Unable to add some file references to Xcode project")
             }
             
             checkForUpdate(logger: logger)

@@ -87,16 +87,18 @@ extension FigmaExportCommand {
             
             guard iosParams.xcassetsInSwiftPackage == false else { return }
             
-            do {
-                let xcodeProject = try XcodeProjectWriter(xcodeProjPath: iosParams.xcodeprojPath, target: iosParams.target)
-                try files.forEach { file in
-                    if file.destination.file.pathExtension == "swift" {
-                        try xcodeProject.addFileReferenceToXcodeProj(file.destination.url)
+            if let xcodeprojPath = iosParams.xcodeprojPath, let target = iosParams.target {
+                do {
+                    let xcodeProject = try XcodeProjectWriter(xcodeProjPath: xcodeprojPath, target: target)
+                    try files.forEach { file in
+                        if file.destination.file.pathExtension == "swift" {
+                            try xcodeProject.addFileReferenceToXcodeProj(file.destination.url)
+                        }
                     }
+                    try xcodeProject.save()
+                } catch {
+                    logger.error("Unable to add some file references to Xcode project")
                 }
-                try xcodeProject.save()
-            } catch {
-                logger.error("Unable to add some file references to Xcode project")
             }
         }
 

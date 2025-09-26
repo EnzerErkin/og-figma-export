@@ -107,4 +107,49 @@ public extension String {
         guard !result.isSnakeCase else { return result }
         return result.lowercasedStrings().map{ $0.lowercased() }.joined(separator: "_")
     }
+    
+    /// Returns OGAssetsFetcher variable formatted version of the string.
+    ///
+    /// This method replicates the exact naming transformation used by OGAssetsFetcher:
+    /// - Removes non-alphanumeric characters and capitalizes the following letter
+    /// - Adds "icon" prefix if name starts with a number
+    /// - Lowercases the first letter for proper camelCase
+    ///
+    /// Here's an example:
+    ///
+    ///     let name = "16x16_checkmark"
+    ///     print(name.ogVariableFormatted())
+    ///     // Prints "icon16x16Checkmark"
+    ///
+    /// - Returns: An OGAssetsFetcher variable formatted copy of the string.
+    func ogVariableFormatted() -> String {
+        var lastElementWasDropped = false
+        var formatKey = compactMap {
+            if !$0.isLetter, !$0.isNumber {
+                lastElementWasDropped = true
+                return nil
+            }
+            if lastElementWasDropped {
+                lastElementWasDropped = false
+                return $0.uppercased()
+            }
+            lastElementWasDropped = false
+            return String($0)
+        }.joined(separator: "")
+        
+        if formatKey.first?.isNumber ?? false {
+            formatKey = String("icon" + formatKey)
+        }
+        
+        return "\(formatKey.first?.lowercased() ?? "")\(formatKey.dropFirst())"
+    }
+    
+    /// Returns OGAssetsFetcher key formatted version of the string.
+    ///
+    /// This is an alias for ogVariableFormatted() to match OGAssetsFetcher API.
+    ///
+    /// - Returns: An OGAssetsFetcher key formatted copy of the string.
+    func ogKeyFormatted() -> String {
+        return ogVariableFormatted()
+    }
 }
